@@ -10,13 +10,13 @@
     <header>
         <nav class="nav-bar">
             <div class="logo">
-                <img src="{% static "global/img/logo-nimbus.png" %}" alt="Logo Nimbus">
+                <a href=""><img src="{% static "global/img/logo-nimbus.png" %}" alt="Logo Nimbus"></a>
             </div>
             <ul class="menu">
                 <li><a href="#explorar">Explorar</a></li>
                 <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#entrar">Entrar</a></li>
-                <li><a href="#criar-conta">Criar Conta</a></li>
+                <li><a class="btn-entrar" href="#entrar">Entrar</a></li>
+                <li><a class="btn-cadastrar" href="#criar-conta">Criar Conta</a></li>
             </ul>
         </nav>
     </header>
@@ -26,8 +26,23 @@
             {% for post in posts %}
                 <div class="grid-item">
                     <img src="{{ post.image.url }}" alt="Descrição da imagem">
-                    <div class="user-info">
-                        <p>{{ post.artist }}</p>
+                    <div class="post-info">
+                        <div class="user-info">
+                            <p>@{{ post.artist }}</p>
+                            {% if post.artist.profile.profile_image %}
+                                <img src="{{ post.artist.profile.profile_image.url }}" alt="Imagem do perfil">
+                            {% else %}
+                                <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão do perfil">
+                            {% endif %}
+                        </div>
+                        <div class="art-info">
+                            <p class="post-title">{{post.title}}</p>
+                            <p>
+                                {% for tag in post.tags.all %}
+                                    <a href="#">{{ tag.name }}</a>{% if not forloop.last %} {% endif %}
+                                {% endfor %}
+                            </p>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
