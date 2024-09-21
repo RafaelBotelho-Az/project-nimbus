@@ -7,6 +7,31 @@
     <link rel="stylesheet" href="{% static "global/css/style.css" %}">
 </head>
 <body>
-    <h1>Nimbus</h1>
+    <header>
+        <nav class="nav-bar">
+            <div class="logo">
+                <img src="{% static "global/img/logo-nimbus.png" %}" alt="Logo Nimbus">
+            </div>
+            <ul class="menu">
+                <li><a href="#explorar">Explorar</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#entrar">Entrar</a></li>
+                <li><a href="#criar-conta">Criar Conta</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="explorar" id="explorar">
+        <h2>Explore o que há de mais novo em Nimbus</h2>
+        <div class="grid-container">
+            {% for post in posts %}
+                <div class="grid-item">
+                    <img src="{{ post.image.url }}" alt="Descrição da imagem">
+                    <div class="user-info">
+                        <p>{{ post.artist }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
 </body>
 </html>
