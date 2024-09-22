@@ -81,12 +81,17 @@ body {
   color: var(--clr-deep-purple);
 }
 
-.btn-entrar, .btn-cadastrar {
-  background-color: var(--clr-deep-purple);
+.menu .btn-entrar, .menu .btn-cadastrar {
+  color: var(--clr-deep-purple);
 }
 
-.btn-entrar:hover, .btn-cadastrar:hover {
+.btn-entrar, .btn-cadastrar {
   background-color: var(--clr-turquoise);
+}
+
+.menu .btn-entrar:hover, .menu .btn-cadastrar:hover {
+  background-color: var(--clr-deep-purple);
+  color: var(--clr-turquoise);
 }
 
 /*----EXPLORAR  -------------------------------  */
@@ -167,4 +172,42 @@ body {
 
 .post-title {
   padding: 4px;
+}
+
+.tags a:hover {
+  filter: brightness(140%);
+}
+
+.interactions {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+  padding: 10px;
+  border-radius: 0 0 0 8px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transition: opacity 1.0s;
+}
+
+.grid-item:hover .interactions {
+  opacity: 1;
+}
+
+.interactions img {
+  width: 45px;
+  height: auto;
+}
+
+.likes, .comments {
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.likes img:hover, .comments img:hover {
+  filter: brightness(140%);
+  cursor: pointer;
 }

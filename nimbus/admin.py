@@ -12,3 +12,11 @@ class ProfileAdmin(admin.ModelAdmin):
 @admin.register(models.Tag)
 class TagAdmin(admin.ModelAdmin):
     ...
+
+@admin.register(models.Like)
+class LikeAdmin(admin.ModelAdmin):
+    ...
+
+@admin.register(models.Comment)
+class CommentAdmin(admin.ModelAdmin):
+    ...

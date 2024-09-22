@@ -4,7 +4,7 @@ from nimbus.models import Art
 
 
 def index(request):
-    posts = Art.objects.all()
+    posts = Art.objects.all().prefetch_related('likes', 'comments') 
 
     context = {
         'posts': posts,
