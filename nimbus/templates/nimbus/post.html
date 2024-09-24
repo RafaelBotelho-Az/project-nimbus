@@ -1,0 +1,9 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="single-post">
+        {{posts.artist}}
+        <img src="{{ posts.image.url }}" alt="imagem">
+    </div>
+{% endblock content %}

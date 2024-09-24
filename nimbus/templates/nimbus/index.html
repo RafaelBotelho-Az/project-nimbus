@@ -1,1 +1,45 @@
 {% extends "global/base.html" %}
+{% load static %}
+
+{% block content %}
+    <section class="explorar" id="explorar">
+        <h2>Explore o que há de mais novo em Nimbus</h2>
+        <div class="grid-container">
+            {% for post in posts %}
+                <div class="grid-item">
+                    <a class="link-post" href="{% url "nimbus:post" post.id %}">
+                        <img class="testezin" src="{{ post.image.url }}" alt="imagem">
+                    </a>
+                    <div class="interactions">
+                        <div class="likes">
+                            <img src="{% static "global/img/like-p.svg" %}" alt="like">
+                            {{ post.total_likes }}
+                        </div>
+                        <div class="comments">
+                            <img src="{% static "global/img/comment-p.svg" %}" alt="comment">
+                            {{ post.total_comments }}
+                        </div>
+                    </div>
+                    <div class="post-info">
+                        <div class="user-info">
+                            <p>@{{ post.artist }}</p>
+                            {% if post.artist.profile.profile_image %}
+                                <img src="{{ post.artist.profile.profile_image.url }}" alt="Imagem do perfil">
+                            {% else %}
+                                <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão do perfil">
+                            {% endif %}
+                        </div>
+                        <div class="art-info">
+                            <p class="post-title">{{post.title}}</p>
+                            <p class="tags">
+                                {% for tag in post.tags.all %}
+                                    <a href="#">{{ tag.name }}</a>{% if not forloop.last %} {% endif %}
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock content %}
