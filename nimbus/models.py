@@ -17,9 +17,9 @@ class Profile(models.Model):
         return self.user.username
 
 class Art(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    image = models.ImageField(upload_to='art_images/')
+    title = models.CharField(max_length=80, verbose_name='Título')
+    description = models.TextField(max_length=255, verbose_name='Descrição')
+    image = models.ImageField(upload_to='art_images/', verbose_name='Imagem')
     artist = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = models.ManyToManyField('Tag', blank=True)
     created_date = models.DateTimeField(default=timezone.now)

@@ -1,5 +1,6 @@
 from typing import Any
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django import forms
 from django.core.exceptions import ValidationError
 from nimbus.models import Art
@@ -10,20 +11,9 @@ class PostForm(forms.ModelForm):
         fields = (
             'title', 'description', 'image', 'tags',
         )
-    
-    def clean(self):
-        cleaned_data = self.cleaned_data
-
-        self.add_error(
-            'title',
-            ValidationError(
-                'Mensagem de erro',
-                code='invalid'
-            )
-        )
-        return super().clean()
-
-
+        widgets = {
+            'tags': forms.SelectMultiple(attrs={'class': 'select2'}),
+        }
 
 def index(request):
     posts = Art.objects.all().prefetch_related('likes', 'comments') 
@@ -57,13 +47,22 @@ def post(request, post_id):
     )
 
 
-
+@login_required
 def createPost(request):
     if request.method == 'POST':
+        form = PostForm(request.POST, request.FILES)
+
         context = {
-            'form': PostForm(request.POST),
+            'form': form,
             'title': 'Criar',
             }
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.artist = request.user
+            post.save()
+            form.save_m2m()
+            return redirect('nimbus:create')
 
         return render(
             request,

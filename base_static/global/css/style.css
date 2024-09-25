@@ -224,19 +224,77 @@ body {
 /*----POST-CREATE  -----------------------------  */
 
 .form-wrapper {
-  max-width: 60rem;
+  max-width: 30rem;
   margin: 0 auto;
   padding-top: 100px;
 }
 
+@media (min-width: 600px) {
+  .form-wrapper {
+    max-width: 50rem;
+  }
+}
+
+@media (min-width: 900px) {
+  .form-wrapper {
+    max-width: 60rem;
+  }
+}
+
+@media (min-width: 1300px) {
+  .form-wrapper {
+    max-width: 80rem;
+  }
+}
+
 .form-content {
   margin: 1.5rem auto;
+  padding: 0px 20px 0px 20px;
 }
 
 .form-group {
   display: flex;
   flex-direction: column;
-  padding-bottom: 1.5rem
+  padding-bottom: 1.5rem;
+  border-radius: 6px;
+}
+
+.form-group input {
+  border-radius: 4px;
+  height: 32px;
+  border-style: unset;
+  padding: 5px;
+}
+
+.form-group textarea {
+  border-radius: 4px;
+  height: 64px;
+  border-bottom-style: inset;
+  padding: 5px;
+}
+
+.form-group button {
+  border-radius: 4px;
+  height: 32px;
+  border-style: unset;
+  color: var(--clr-deep-purple);
+  background-color: var(--clr-turquoise);
+  font-size: var(--small-font-size);
+  font-weight: bold;
+}
+
+.form-group button:hover {
+  cursor: pointer;
+  color: var(--clr-turquoise);
+  background-color: var(--clr-deep-purple);
+}
+
+.form-group span {
+  width: 100%;
+}
+
+.select2 {
+  width: 100%;
 }
 
 .errorlist {
