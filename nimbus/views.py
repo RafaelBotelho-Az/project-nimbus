@@ -1,6 +1,9 @@
 from typing import Any
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+from django.contrib import auth, messages
 from django import forms
 from django.core.exceptions import ValidationError
 from nimbus.models import Art
@@ -14,6 +17,26 @@ class PostForm(forms.ModelForm):
         widgets = {
             'tags': forms.SelectMultiple(attrs={'class': 'select2'}),
         }
+
+class RegisterForm(UserCreationForm):
+    first_name = forms.CharField(required=True, min_length=3,)
+    last_name = forms.CharField(required=True, min_length=3,)
+
+    class Meta:
+        model = User
+        fields = (
+            'first_name', 'last_name', 'email',
+            'username', 'password1', 'password2',
+        )
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+
+        if User.objects.filter(email=email).exists():
+            self.add_error(
+                'email',
+                ValidationError('Este email já está em uso', code='invalid')
+            )
+        return email
 
 def index(request):
     posts = Art.objects.all().prefetch_related('likes', 'comments') 
@@ -62,6 +85,7 @@ def createPost(request):
             post.artist = request.user
             post.save()
             form.save_m2m()
+            messages.success(request, 'Enviado com sucesso!')
             return redirect('nimbus:create')
 
         return render(
@@ -79,4 +103,23 @@ def createPost(request):
         request,
         'nimbus/create-post.html',
         context
+    )
+
+def createUser(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Registrado com sucesso!')
+            return redirect('nimbus:register')
+    else:
+        form = RegisterForm()
+
+
+    return render(
+        request,
+        'nimbus/create-user.html',
+        {
+            'form': form
+        }
     )

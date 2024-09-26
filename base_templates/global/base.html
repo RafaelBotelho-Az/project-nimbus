@@ -16,10 +16,11 @@
                 <li><a href="{% url "nimbus:index" %}">Explorar</a></li>
                 <li><a href="{% url "nimbus:create" %}">Criar</a></li>
                 <li><a class="btn-entrar" href="#entrar">Entrar</a></li>
-                <li><a class="btn-cadastrar" href="#criar-conta">Cadastrar</a></li>
+                <li><a class="btn-cadastrar" href="{% url "nimbus:register" %}">Cadastrar</a></li>
             </ul>
         </nav>
     </header>
+    {% include 'global/partials/_messages.html' %}
     {% block content %}{% endblock content %}
 </body>
 </html>

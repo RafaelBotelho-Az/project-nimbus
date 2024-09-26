@@ -37,6 +37,7 @@ body {
   font-size: var(--small-font-size);
   color: var(--clr-turquoise);
   background: var(--clr-charcoal);
+  position: relative;
 }
 
 
@@ -221,12 +222,16 @@ body {
   cursor: pointer;
 }
 
-/*----POST-CREATE  -----------------------------  */
+/*---- FORMS -----------------------------  */
+.form-wrapper h2 {
+  display: flex;
+  justify-content: center;
+}
 
 .form-wrapper {
   max-width: 30rem;
   margin: 0 auto;
-  padding-top: 100px;
+  padding-top: 125px;
 }
 
 @media (min-width: 600px) {
@@ -243,7 +248,7 @@ body {
 
 @media (min-width: 1300px) {
   .form-wrapper {
-    max-width: 80rem;
+    max-width: 70rem;
   }
 }
 
@@ -304,4 +309,39 @@ body {
 }
 .errorlist.nonfield {
   color: inherit;
+}
+
+.help-text, .help-text ~ ul {
+  font-size: var(--smallest-font-size);
+  list-style: none;
+  color: var(--clr-white);
+}
+
+.message {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: var(--smaller-font-size);
+  position: absolute;
+  top: 85px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.message.success p {
+  max-width: 300px;
+  background:#6bc36b;
+  border: 1px solid var(--clr-mint-green);
+  color: var(--clr-mint-green);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.message.error p {
+  max-width: 300px;
+  background:#c94841;
+  border: 1px solid var(--clr-sunset-orange);
+  color: var(--clr-sunset-orange);
+  padding: 8px;
+  border-radius: 8px;
 }
