@@ -12,15 +12,38 @@
             <div class="logo">
                 <a href="{% url "nimbus:index" %}"><img src="{% static "global/img/logo-nimbus.png" %}" alt="Logo Nimbus"></a>
             </div>
-            <ul class="menu">
-                <li><a href="{% url "nimbus:index" %}">Explorar</a></li>
-                <li><a href="{% url "nimbus:create" %}">Criar</a></li>
-                <li><a class="btn-entrar" href="#entrar">Entrar</a></li>
-                <li><a class="btn-cadastrar" href="{% url "nimbus:register" %}">Cadastrar</a></li>
-            </ul>
+            {% if user.is_authenticated %}
+                <ul class="menu">
+                    <li><a href="{% url "nimbus:index" %}">Explorar</a></li>
+                    <li><a href="{% url "nimbus:create" %}">Criar</a></li>
+                    <li>
+                        <a href="javascript:void(0)" class="no-hover">
+                            {% if user.profile.profile_image %}
+                                <img src="{{ user.profile.profile_image.url }}" alt="Imagem de perfil" class="profile-image" id="profile-img">
+                            {% else %}
+                                <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão de perfil" class="profile-image" id="profile-img">
+                            {% endif %}
+                        </a>
+                        <div class="dropdown-menu" id="profile-dropdown">
+                            <ul>
+                                <li><a href="{% url 'nimbus:index' %}">Meu Perfil</a></li>
+                                <li><a href="{% url 'nimbus:logout' %}">Deslogar</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="menu">
+                    <li><a href="{% url "nimbus:index" %}">Explorar</a></li>
+                    <li><a href="{% url "nimbus:login" %}">Criar</a></li>
+                    <li><a class="btn-entrar" href="{% url "nimbus:login" %}">Entrar</a></li>
+                    <li><a class="btn-cadastrar" href="{% url "nimbus:register" %}">Cadastrar</a></li>
+                </ul>
+            {% endif %}
         </nav>
     </header>
     {% include 'global/partials/_messages.html' %}
     {% block content %}{% endblock content %}
+    <script src="{% static "global/js/scripts.js" %}"></script>
 </body>
 </html>

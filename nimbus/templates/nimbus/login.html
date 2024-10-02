@@ -4,10 +4,9 @@
 
 <div class="form-wrapper">
     <div class="form-container">
-        <h2>Faça aqui o seu Cadastro!</h2>
-        
+        <h2>Digite os seus dados de acesso!</h2>
         <form 
-            action="{% url 'nimbus:register' %}"
+            action="{% url 'nimbus:login' %}"
             method="POST"
         >
             {% csrf_token %}
@@ -28,7 +27,7 @@
         
             <div class="form-content">
                 <div class="form-group">
-                    <button class="btn" type="submit">Enviar</button>
+                    <button class="btn" type="submit">Entrar</button>
                 </div>
             </div>
         </form>

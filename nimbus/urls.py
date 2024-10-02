@@ -12,5 +12,9 @@ urlpatterns = [
 
     # user
     path('user/register', views.createUser, name='register'),
+    path('user/login', views.loginView, name='login'),
+    path('user/logout', views.logoutView, name='logout'),
+
+
 
 ]

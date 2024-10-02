@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django import forms
@@ -111,7 +111,7 @@ def createUser(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Registrado com sucesso!')
-            return redirect('nimbus:register')
+            return redirect('nimbus:login')
     else:
         form = RegisterForm()
 
@@ -123,3 +123,33 @@ def createUser(request):
             'form': form
         }
     )
+
+def loginView(request):
+    form = AuthenticationForm(request)
+    
+    if request.method == 'POST':
+        form = AuthenticationForm(request, request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            auth.login(request, user)
+            messages.success(request, 'Logado com sucesso!')
+            return redirect('nimbus:index')
+        else:
+            messages.error(request, 'Login inválido!')
+            form.add_error(
+                'password', ValidationError('Usuário ou senha inválidos!')
+            )
+
+    return render(
+        request,
+        'nimbus/login.html',
+        {
+            'form': form
+        }
+    )
+
+def logoutView(request):
+    auth.logout(request)
+    messages.success(request, 'Deslogado com sucesso!')
+    return redirect('nimbus:index')

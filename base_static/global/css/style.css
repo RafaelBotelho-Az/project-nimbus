@@ -66,6 +66,7 @@ body {
 
 .menu li {
   display: inline;
+  align-content: center;
 }
 
 .menu a {
@@ -79,20 +80,70 @@ body {
 }
 
 .menu a:hover {
-  color: var(--clr-deep-purple);
+  filter: brightness(130%);
+  text-decoration: underline;
+}
+
+.menu a.no-hover:hover {
+  filter: brightness(115%);
+  background-color: transparent;
 }
 
 .menu .btn-entrar, .menu .btn-cadastrar {
-  color: var(--clr-deep-purple);
+  color: var(--clr-turquoise)
 }
 
 .btn-entrar, .btn-cadastrar {
-  background-color: var(--clr-turquoise);
+  background-color: rgba(0, 0, 0, 0.6)
 }
 
 .menu .btn-entrar:hover, .menu .btn-cadastrar:hover {
-  background-color: var(--clr-deep-purple);
   color: var(--clr-turquoise);
+  text-decoration: underline;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 76px;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 0 0 0 4px;
+  width: 150px;
+}
+
+.dropdown-menu ul {
+  list-style: none;
+  padding: 10px;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  margin: 5px 0;
+}
+
+.dropdown-menu ul li a {
+  text-decoration: none;
+  color: var(--clr-turquoise);
+  padding: 10px;
+  display: block;
+  text-align: center;
+  font-size: var(--smaller-font-size);
+}
+
+.dropdown-menu ul li a:hover {
+  filter: brightness(130%);
 }
 
 /*----EXPLORAR  -------------------------------  */
@@ -102,7 +153,7 @@ body {
 
 .explorar h2 {
   text-align: center;
-  padding-top: 20px;
+  padding-top: 50px;
   color: var(--clr-turquoise);
 }
 
@@ -223,9 +274,17 @@ body {
 }
 
 /*---- FORMS -----------------------------  */
+.form-container {
+  background-color: rgba(0, 0, 0, 0.45);
+  border-radius: 4px;
+  margin-top: 8px;
+}
+
 .form-wrapper h2 {
   display: flex;
   justify-content: center;
+  padding: 15px;
+
 }
 
 .form-wrapper {
@@ -261,7 +320,7 @@ body {
   display: flex;
   flex-direction: column;
   padding-bottom: 1.5rem;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .form-group input {
@@ -317,6 +376,10 @@ body {
   color: var(--clr-white);
 }
 
+
+
+
+
 .message {
   display: flex;
   justify-content: center;
@@ -330,18 +393,20 @@ body {
 
 .message.success p {
   max-width: 300px;
-  background:#6bc36b;
+  background:#6bc36bdb;
   border: 1px solid var(--clr-mint-green);
   color: var(--clr-mint-green);
   padding: 8px;
   border-radius: 8px;
+  font-weight: bold;
 }
 
 .message.error p {
   max-width: 300px;
-  background:#c94841;
+  background:#ca5751da;
   border: 1px solid var(--clr-sunset-orange);
   color: var(--clr-sunset-orange);
   padding: 8px;
   border-radius: 8px;
+  font-weight: bold;
 }
