@@ -2,8 +2,65 @@
 {% load static %}
 
 {% block content %}
-    <div class="single-post">
-        {{posts.artist}}
-        <img src="{{ posts.image.url }}" alt="imagem">
+
+    <div class="post-wrapper">
+
+        <div class="post-content">
+            <img src="{{ posts.image.url }}" alt="imagem">
+        </div>
+
+        <div class="post-side">
+            <div class="post-user">
+                {% if posts.artist.profile.profile_image %}
+                <img src="{{ posts.artist.profile.profile_image.url }}" alt="Imagem do perfil">
+                {% else %}
+                <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão do perfil">
+                {% endif %}
+                <p>@{{ posts.artist }}</p>
+            </div>
+            <div class="post-about">
+                <h2>{{posts.title}}</h2>
+                <p>{{posts.description}}</p>
+            </div>
+            <div class="post-interactions">
+                <div class="likes">
+                    <img src="{% static "global/img/like-p.svg" %}" alt="like">
+                    {{ posts.total_likes }}
+                </div>
+            </div>
+            <div class="post-comments">
+                <h3>Comentários</h3>
+                {% if posts.comments.all %}
+                    <ul>
+                        {% for comment in posts.comments.all %}
+                        <li>
+                            <div class="comment-header">
+                                <strong>@{{ comment.user.username }}</strong>
+                                <span>{{ comment.created_at|date:"d M Y H:i" }}</span> <!-- Formata a data -->
+                            </div>
+                            <p>{{ comment.comment }}</p>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Seja o primeiro a comentar!</p>
+                {% endif %}
+            </div>
+            <div class="form-comment">
+            {% if user.is_authenticated %}
+                <h4>Deixe um comentário</h4>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Enviar</button>
+                </form>
+            {% else %}
+                <p>Você precisa <a href="{% url 'nimbus:login' %}">entrar</a> para comentar.</p>
+            {% endif %}
+            </div>
+        </div>
+
     </div>
+
+
 {% endblock content %}

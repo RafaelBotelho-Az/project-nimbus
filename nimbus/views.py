@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django import forms
 from django.core.exceptions import ValidationError
-from nimbus.models import Art
+from nimbus.models import Art, Comment
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -38,6 +38,21 @@ class RegisterForm(UserCreationForm):
             )
         return email
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={
+                'rows': 5,
+                'placeholder': 'Digite seu comentário...'
+            }),
+        }
+    def __init__(self, *args, **kwargs):
+        super(CommentForm, self).__init__(*args, **kwargs)
+        self.fields['comment'].label = ''
+        self.fields['comment'].widget.attrs.update({'maxlength': '255',})
+
 def index(request):
     posts = Art.objects.all().prefetch_related('likes', 'comments') 
 
@@ -53,14 +68,28 @@ def index(request):
     )
 
 
-
 def post(request, post_id):
-    single_post = get_object_or_404(Art.objects, pk=post_id)
-    site_tile = f'{single_post.title}'
+    single_post = get_object_or_404(Art, pk=post_id)
+    site_title = f'{single_post.title}'
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.art = single_post
+            comment.user = request.user
+            comment.save()
+            return redirect('nimbus:post', post_id=single_post.id)
+    else:
+        form = CommentForm()
+
+    comments = single_post.comments.all()
 
     context = {
         'posts': single_post,
-        'title': site_tile,
+        'title': site_title,
+        'form': form,
+        'comments': comments,
     }
 
     return render(
