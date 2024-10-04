@@ -5,15 +5,16 @@
     <section class="explorar" id="explorar">
         <h2>Explore o que há de mais novo em Nimbus</h2>
         <div class="grid-container">
-            {% for post in posts %}
+            {% for post in page_obj %}
                 <div class="grid-item">
                     <a class="link-post" href="{% url "nimbus:post" post.id %}">
                         <img class="testezin" src="{{ post.image.url }}" alt="imagem">
                     </a>
+                    <span class="c-date">{{ post.created_date|date:"d M Y H:i" }}</span>
                     <div class="interactions">
                         <div class="likes">
-                            <img src="{% static "global/img/like-p.svg" %}" alt="like">
-                            {{ post.total_likes }}
+                            <img src="{% static "global/img/like-p.svg" %}" alt="like" id="like-icon-{{ post.id }}" class="like-icon">
+                            <span id="like-count-{{ post.id }}">{{ post.total_likes }}</span>
                         </div>
                         <div class="comments">
                             <img src="{% static "global/img/comment-p.svg" %}" alt="comment">
@@ -41,5 +42,49 @@
                 </div>
             {% endfor %}
         </div>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; primeira</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+                {% endif %}
+    
+                <span class="current">
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+                </span>
+    
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">próxima</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">última &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+
     </section>
+    <script>
+        $(document).ready(function() {
+            $('.like-icon').click(function() {
+                var art_id = $(this).attr('id').split('-')[2];
+                var url = "{% url 'nimbus:like_art' art_id=0 %}".replace('0', art_id);
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        $('#like-count-' + art_id).text(response.total_likes);
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.status === 403) {
+                            alert('Você precisa estar logado para dar like.');
+                        } else {
+                            console.log('Erro ao processar a solicitação.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock content %}

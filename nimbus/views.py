@@ -1,12 +1,13 @@
-from typing import Any
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django import forms
+from django.http import JsonResponse
 from django.core.exceptions import ValidationError
-from nimbus.models import Art, Comment
+from django.core.paginator import Paginator
+from nimbus.models import Art, Comment, Like
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -28,6 +29,13 @@ class RegisterForm(UserCreationForm):
             'first_name', 'last_name', 'email',
             'username', 'password1', 'password2',
         )
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].label = 'Nome'
+        self.fields['last_name'].label = 'Sobrenome'
+
+
     def clean_email(self):
         email = self.cleaned_data.get('email')
 
@@ -54,10 +62,14 @@ class CommentForm(forms.ModelForm):
         self.fields['comment'].widget.attrs.update({'maxlength': '255',})
 
 def index(request):
-    posts = Art.objects.all().prefetch_related('likes', 'comments') 
+    posts = Art.objects.all().order_by('-created_date').prefetch_related('likes', 'comments') 
+
+    paginator = Paginator(posts, 15)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     context = {
-        'posts': posts,
+        'page_obj': page_obj,
         'title': 'Explorar',
     }
 
@@ -182,3 +194,18 @@ def logoutView(request):
     auth.logout(request)
     messages.success(request, 'Deslogado com sucesso!')
     return redirect('nimbus:index')
+
+
+def like_art(request, art_id):
+    if not request.user.is_authenticated:
+        return JsonResponse(
+            {'error': 'Você precisa estar logado para dar like.'}, status=403
+            )
+
+    art = get_object_or_404(Art, id=art_id)
+    like, created = Like.objects.get_or_create(art=art, user=request.user)
+
+    if not created:
+        like.delete()
+
+    return JsonResponse({'total_likes': art.likes.count()})

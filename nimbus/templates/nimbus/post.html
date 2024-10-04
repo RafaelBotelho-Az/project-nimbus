@@ -19,13 +19,14 @@
                 <p>@{{ posts.artist }}</p>
             </div>
             <div class="post-about">
+                <span>{{ posts.created_date|date:"d M Y H:i" }}</span>
                 <h2>{{posts.title}}</h2>
                 <p>{{posts.description}}</p>
             </div>
             <div class="post-interactions">
                 <div class="likes">
-                    <img src="{% static "global/img/like-p.svg" %}" alt="like">
-                    {{ posts.total_likes }}
+                    <img src="{% static "global/img/like-p.svg" %}" alt="like" id="like-icon-{{ posts.id }}" class="like-icon">
+                    <span id="like-count-{{ posts.id }}">{{ posts.total_likes }}</span>
                 </div>
             </div>
             <div class="post-comments">
@@ -43,7 +44,7 @@
                         {% endfor %}
                     </ul>
                 {% else %}
-                    <p>Seja o primeiro a comentar!</p>
+                    <p>Seja o primeiro a comentar...</p>
                 {% endif %}
             </div>
             <div class="form-comment">
@@ -55,12 +56,35 @@
                     <button type="submit">Enviar</button>
                 </form>
             {% else %}
-                <p>Você precisa <a href="{% url 'nimbus:login' %}">entrar</a> para comentar.</p>
+                <p>Você precisa <a href="{% url 'nimbus:login' %}">Entrar</a> para comentar.</p>
             {% endif %}
             </div>
         </div>
-
     </div>
-
+    <script>
+        $(document).ready(function() {
+            $('.like-icon').click(function() {
+                var art_id = $(this).attr('id').split('-')[2];
+                var url = "{% url 'nimbus:like_art' art_id=0 %}".replace('0', art_id);
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    },
+                    success: function(response) {
+                        $('#like-count-' + art_id).text(response.total_likes);
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.status === 403) {
+                            alert('Você precisa estar logado para dar like.');
+                        } else {
+                            console.log('Erro ao processar a solicitação.');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
 {% endblock content %}
