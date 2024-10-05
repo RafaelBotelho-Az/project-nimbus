@@ -6,7 +6,7 @@
   --clr-turquoise: #30D5C8;
   --clr-sunset-orange: #FF5E57;
   --clr-mint-green: #98FF98;
-  --clr-charcoal: #36454F;
+  --clr-charcoal: #263138;
 
   --biggest-font-size: 5rem;
   --bigger-font-size: 4rem;
@@ -90,16 +90,18 @@ body {
 }
 
 .menu .btn-entrar, .menu .btn-cadastrar {
-  color: var(--clr-turquoise)
+  color: var(--clr-turquoise);
 }
 
 .btn-entrar, .btn-cadastrar {
-  background-color: rgba(255, 255, 255, 0.2)
+  background-color: var(--clr-charcoal);
+  border: solid 1px var(--clr-turquoise);
 }
 
 .menu .btn-entrar:hover, .menu .btn-cadastrar:hover {
   color: var(--clr-turquoise);
-  text-decoration: underline;
+  text-decoration: none;
+  box-shadow: var(--clr-turquoise) 0px 0px 7px;
 }
 
 .profile-image {
@@ -301,7 +303,7 @@ body {
 /*---- FORMS -----------------------------  */
 
 .form-container {
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.7);
   border-radius: 4px;
   margin-top: 8px;
 }
@@ -383,16 +385,22 @@ body {
   border-radius: 4px;
   height: 32px;
   border-style: unset;
-  color: var(--clr-deep-purple);
-  background-color: var(--clr-turquoise);
+  color: var(--clr-turquoise);
+  background-color: var(--clr-charcoal);
   font-size: var(--small-font-size);
   font-weight: bold;
+  border: solid 1px var(--clr-turquoise);
+  transition: transform 0.1s ease
 }
 
 .form-group button:hover {
   cursor: pointer;
-  color: var(--clr-turquoise);
-  background-color: var(--clr-deep-purple);
+  box-shadow: var(--clr-turquoise) 0px 0px 7px;
+  filter: brightness(115%);
+}
+
+.form-group button:active {
+  transform: scale(0.98);
 }
 
 .form-group span {
@@ -417,6 +425,101 @@ body {
   list-style: none;
   color: var(--clr-white);
 }
+
+
+
+
+
+
+
+.form-search {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding-top: 15px;
+}
+
+.form-search input {
+  height: 30px;
+  border-radius: 4px;
+  border-style: none;
+  padding: 4px;
+  width: 150px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--clr-turquoise);
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
+  border: solid 1px var(--clr-turquoise);
+}
+
+.form-search button {
+  height: 30px;
+  font-size: var(--smallest-font-size);
+  border-radius: 4px;
+  border-style: none;
+  padding: 4px;
+  width: 305px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--clr-turquoise);
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
+  border: solid 1px var(--clr-turquoise);
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.form-search select {
+  height: 30px;
+  font-size: var(--smallest-font-size);
+  border-radius: 4px;
+  border-style: none;
+  width: 150px;
+  display: flex;
+  justify-items: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: var(--clr-turquoise);
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
+  border: solid 1px var(--clr-turquoise);
+  cursor: pointer;
+}
+
+.form-search input:focus, select:focus{
+  outline: none;
+  box-shadow: var(--clr-turquoise) 0px 0px 7px;
+}
+
+.form-search button:hover {
+  box-shadow: var(--clr-turquoise) 0px 0px 7px;
+}
+
+.form-search button:active {
+  transform: scale(0.95);
+}
+
+.form-search input::placeholder {
+  font-size: var(--smallest-font-size);
+  padding-left: 5px;
+}
+
+@media (min-width: 600px) {
+  .form-search input {
+    width: 200px;
+  }
+  .form-search button {
+    width: 150px;
+  }
+  .form-search select {
+    width: 200px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .form-search input {
+    width: 300px;
+  }
+}
+
+
 
 
 /*---- MESSAGES -----------------------------  */
@@ -472,7 +575,7 @@ body {
 }
 
 .post-side {
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.7);
   min-width: 350px;
   max-width: 350px;
   border-radius: 15px;
@@ -640,15 +743,16 @@ color: #888;
   color: var(--clr-turquoise);
   text-decoration: none;
   border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.55) 5px 5px 5px;
+  box-shadow: rgba(0, 0, 0, 0.3) 3px 3px 3px;
+  border: solid 1px var(--clr-turquoise);
 }
 
 .pagination a:hover {
   text-decoration: underline;
+  box-shadow: var(--clr-turquoise) 0px 0px 7px;
 }
 
 .pagination .current {
   padding: 8px 12px;
   font-weight: bold;
 }
-

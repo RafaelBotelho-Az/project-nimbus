@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
+from django.db.models import Q
+from django.db.models.functions import Lower
 from django import forms
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from nimbus.models import Art, Comment, Like
+from nimbus.models import Art, Comment, Like, Tag
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -62,15 +64,29 @@ class CommentForm(forms.ModelForm):
         self.fields['comment'].widget.attrs.update({'maxlength': '255',})
 
 def index(request):
-    posts = Art.objects.all().order_by('-created_date').prefetch_related('likes', 'comments') 
+    posts = Art.objects.all().order_by('-created_date').prefetch_related(
+        'likes', 'comments'
+        )
+
+    query = request.GET.get('search')
+    selected_tag_id = request.GET.get('tag')
+
+    if query:
+        posts = posts.filter(Q(title__icontains=query))
+
+    if selected_tag_id:
+        posts = posts.filter(tags__id=selected_tag_id)
 
     paginator = Paginator(posts, 15)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    tags = Tag.objects.all().order_by(Lower('name'))
+
     context = {
         'page_obj': page_obj,
         'title': 'Explorar',
+        'tags': tags,
     }
 
     return render(

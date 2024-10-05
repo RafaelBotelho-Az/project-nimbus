@@ -4,6 +4,16 @@
 {% block content %}
     <section class="explorar" id="explorar">
         <h2>Explore o que há de mais novo em Nimbus</h2>
+        <form class='form-search' method="GET" action="">
+            <input type="text" name="search" placeholder="Pesquisar por título..." value="{{ request.GET.search }}">
+            <select name="tag">
+                <option value="">-- Selecione uma tag --</option>
+                {% for tag in tags %}
+                    <option value="{{ tag.id }}" {% if tag.id|stringformat:"d" == request.GET.tag %}selected{% endif %}>{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Pesquisar</button>
+        </form>
         <div class="grid-container">
             {% for post in page_obj %}
                 <div class="grid-item">
@@ -17,8 +27,10 @@
                             <span id="like-count-{{ post.id }}">{{ post.total_likes }}</span>
                         </div>
                         <div class="comments">
-                            <img src="{% static "global/img/comment-p.svg" %}" alt="comment">
-                            {{ post.total_comments }}
+                            <a href="{% url "nimbus:post" post.id %}">
+                                <img src="{% static "global/img/comment-p.svg" %}" alt="comment">
+                            </a>
+                                {{ post.total_comments }}
                         </div>
                     </div>
                     <div class="post-info">
@@ -34,12 +46,14 @@
                             <p class="post-title">{{post.title}}</p>
                             <p class="tags">
                                 {% for tag in post.tags.all %}
-                                    <a href="#">{{ tag.name }}</a>{% if not forloop.last %} {% endif %}
+                                <a href="?tag={{ tag.id }}&search={{ request.GET.search }}">{{ tag.name }}</a>{% if not forloop.last %} {% endif %}
                                 {% endfor %}
                             </p>
                         </div>
                     </div>
                 </div>
+            {% empty %}
+                <p>Nenhum post encontrado.</p>
             {% endfor %}
         </div>
 
