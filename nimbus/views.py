@@ -177,7 +177,8 @@ def createUser(request):
         request,
         'nimbus/create-user.html',
         {
-            'form': form
+            'form': form,
+            'title': 'Cadastro',
         }
     )
 
@@ -202,7 +203,8 @@ def loginView(request):
         request,
         'nimbus/login.html',
         {
-            'form': form
+            'form': form,
+            'title': 'Login',
         }
     )
 

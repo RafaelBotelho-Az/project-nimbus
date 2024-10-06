@@ -1,0 +1,35 @@
+{% load static %}
+<nav class="mobile-nav">
+    <div class="menu-icon" onclick="toggleDropdown()">☰</div>
+    <div class="m-logo">
+        <a href="{% url "nimbus:index" %}"><img src="{% static "global/img/logo-nimbus.svg" %}" alt="Logo Nimbus"></a>
+    </div>
+    {% if user.is_authenticated %}
+        <a href="javascript:void(0)" class="no-hover">
+            {% if user.profile.profile_image %}
+                <img src="{{ user.profile.profile_image.url }}" alt="Imagem de perfil" class="profile-image" id="profile-img2">
+            {% else %}
+                <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão de perfil" class="profile-image" id="profile-img2">
+            {% endif %}
+        </a>
+        <div id="dropdown" class="dropdown">
+            <a href="{% url "nimbus:index" %}">Explorar</a>
+            <a href="{% url "nimbus:create" %}">Criar</a>
+        </div>
+        <div class="dropdown-menu" id="profile-dropdown2">
+            <ul>
+                <li><a href="{% url 'nimbus:index' %}">Meu Perfil</a></li>
+                <li><a href="{% url 'nimbus:logout' %}">Deslogar</a></li>
+            </ul>
+        </div>
+    {% else %}
+        <a href="{% url "nimbus:login" %}">
+            <button class="m-login-btn">Entrar</button>
+        </a>
+        <div id="dropdown" class="dropdown">
+            <a href="{% url "nimbus:index" %}">Explorar</a>
+            <a href="{% url "nimbus:login" %}">Criar</a>
+            <a href="{% url "nimbus:register" %}">Cadastrar</a>
+        </div>
+    {% endif %}
+</nav>
