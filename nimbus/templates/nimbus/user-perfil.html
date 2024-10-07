@@ -1,0 +1,37 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="main-shifted">
+        <div class="profile-side">
+            <div class="post-user">
+                {% if user.profile.profile_image %}
+                <img src="{{ user.profile.profile_image.url }}" alt="Imagem do perfil">
+                {% else %}
+                <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão do perfil">
+                {% endif %}
+                <p>@{{ user.username }}</p>
+                <a href="">Editar foto de perfil</a>
+            </div>
+            <div class="profile-info">
+                <header>Informações pessoais</header>
+                <dl>
+                    <dt>Nome:</dt>
+                    <dd>{{ user.first_name }}</dd>
+            
+                    <dt>Sobrenome:</dt>
+                    <dd>{{ user.last_name }}</dd>
+            
+                    <dt>Email:</dt>
+                    <dd>{{ user.email }}</dd>
+            
+                    <dt>Data de Cadastro:</dt>
+                    <dd>{{ user.date_joined|date:"d M Y" }}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="profile-content">
+
+        </div>
+    </div>
+{% endblock content %}

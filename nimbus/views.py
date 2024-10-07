@@ -227,3 +227,24 @@ def like_art(request, art_id):
         like.delete()
 
     return JsonResponse({'total_likes': art.likes.count()})
+
+
+def perfil(request, username):
+    user = get_object_or_404(User, username=username)
+    posts = Art.objects.filter(artist_id=user.id).prefetch_related(
+        'likes', 'comments'
+        )
+    is_owner = request.user == user
+
+    context = {
+        'posts': posts,
+        'profile_user': user,
+        'is_owner': is_owner,
+        'title': f'{user.username}',
+    }
+
+    return render(
+        request,
+        'nimbus/user-perfil.html',
+        context
+    )
