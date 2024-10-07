@@ -9,7 +9,14 @@ from django import forms
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from nimbus.models import Art, Comment, Like, Tag
+from nimbus.models import Art, Comment, Like, Tag, Profile
+
+
+class ImgProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('profile_image',)
+
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -40,6 +47,10 @@ class RegisterForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
+        user_instance = self.instance
+
+        if user_instance and user_instance.email == email:
+            return email
 
         if User.objects.filter(email=email).exists():
             self.add_error(
@@ -233,10 +244,32 @@ def perfil(request, username):
     user = get_object_or_404(User, username=username)
     posts = Art.objects.filter(artist_id=user.id).prefetch_related(
         'likes', 'comments'
-        )
+    )
     is_owner = request.user == user
+    profile = user.profile
+
+    if request.method == 'POST':
+        if 'edit-info' in request.POST:
+            form = RegisterForm(request.POST, instance=user)
+            del form.fields['username']
+            if form.is_valid():
+                form.save()
+                messages.success(request, 'Informações pessoais editadas com sucesso!')
+                return redirect('nimbus:login')
+        elif 'edit-image' in request.POST:
+            img_form = ImgProfileForm(request.POST, request.FILES, instance=profile)
+            if img_form.is_valid():
+                img_form.save()
+                messages.success(request, 'Imagem de perfil atualizada com sucesso!')
+                return redirect('nimbus:perfil', username=user.username)
+    else:
+        form = RegisterForm(instance=user)
+        del form.fields['username']
+        img_form = ImgProfileForm(instance=profile)
 
     context = {
+        'form': form,
+        'img_form': img_form,
         'posts': posts,
         'profile_user': user,
         'is_owner': is_owner,

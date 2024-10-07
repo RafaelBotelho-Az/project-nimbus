@@ -131,3 +131,23 @@ if (imgPerfil && dropdownPerfil) {
         }
     });
 }
+
+// ocutar ou exibir form update user
+
+document.getElementById("edit-info-link").addEventListener("click", function() {
+    var form = document.getElementById("profile-form");
+    if (form.style.display === "none" || form.style.display === "") {
+        form.style.display = "block";  // Exibe o formulário
+    } else {
+        form.style.display = "none";   // Oculta o formulário se já estiver visível
+    }
+});
+
+document.getElementById("edit-image-link").addEventListener("click", function() {
+    var form = document.getElementById("image-form");
+    if (form.style.display === "none" || form.style.display === "") {
+        form.style.display = "block";  // Exibe o formulário
+    } else {
+        form.style.display = "none";   // Oculta o formulário se já estiver visível
+    }
+});

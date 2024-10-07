@@ -6,32 +6,69 @@
         <div class="profile-side">
             <div class="post-user">
                 {% if user.profile.profile_image %}
-                <img src="{{ user.profile.profile_image.url }}" alt="Imagem do perfil">
+                    <img src="{{ user.profile.profile_image.url }}" alt="Imagem do perfil">
                 {% else %}
-                <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão do perfil">
+                    <img src="{% static "global/img/def_profile_img.jpg" %}" alt="Imagem padrão do perfil">
                 {% endif %}
                 <p>@{{ user.username }}</p>
-                <a href="">Editar foto de perfil</a>
+                <a href="javascript:void(0);" id="edit-image-link">Editar foto de perfil</a>
             </div>
             <div class="profile-info">
                 <header>Informações pessoais</header>
                 <dl>
                     <dt>Nome:</dt>
                     <dd>{{ user.first_name }}</dd>
-            
+
                     <dt>Sobrenome:</dt>
                     <dd>{{ user.last_name }}</dd>
-            
+
                     <dt>Email:</dt>
                     <dd>{{ user.email }}</dd>
-            
+
                     <dt>Data de Cadastro:</dt>
                     <dd>{{ user.date_joined|date:"d M Y" }}</dd>
                 </dl>
+                <a id="edit-info-link" href="javascript:void(0);">Editar informações pessoais</a>
+            </div>
+            <div id="profile-form" class="profile-form" style="display: none;">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-content">
+                        {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {{ field }}
+                                {{ field.errors }}
+                                {% if field.help_text %}
+                                <p class="help-text">{{ field.help_text }}</p>
+                            {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-content">
+                        <div class="form-group">
+                            <button class="btn" name="edit-info" type="submit">Enviar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div id="image-form" class="profile-form" style="display: none;">
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-content">
+                        {{img_form.profile_image }}
+                    </div>
+                    <div class="form-content">
+                        <div class="form-group">
+                            <button class="btn" name="edit-image" type="submit">Atualizar Imagem</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="profile-content">
-
+            
         </div>
     </div>
 {% endblock content %}
