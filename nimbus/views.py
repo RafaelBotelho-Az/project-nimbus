@@ -11,12 +11,16 @@ from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from nimbus.models import Art, Comment, Like, Tag, Profile
 
+class CustomClearableFileInput(forms.ClearableFileInput):
+    template_name = 'nimbus/custom_clearable_file_input.html'
 
 class ImgProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('profile_image',)
-
+        widgets = {
+            'profile_image': CustomClearableFileInput(attrs={'class': 'custom-file-input'})
+        }
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -248,24 +252,29 @@ def perfil(request, username):
     is_owner = request.user == user
     profile = user.profile
 
+    form = RegisterForm(instance=user)
+    del form.fields['username']
+    img_form = ImgProfileForm(instance=profile)
+
     if request.method == 'POST':
         if 'edit-info' in request.POST:
             form = RegisterForm(request.POST, instance=user)
             del form.fields['username']
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Informações pessoais editadas com sucesso!')
+                messages.success(request, 'Editado com sucesso!')
                 return redirect('nimbus:login')
+            else:
+                messages.error(request, 'Erro ao atualizar Informações pessoais')
+                
         elif 'edit-image' in request.POST:
             img_form = ImgProfileForm(request.POST, request.FILES, instance=profile)
             if img_form.is_valid():
                 img_form.save()
                 messages.success(request, 'Imagem de perfil atualizada com sucesso!')
                 return redirect('nimbus:perfil', username=user.username)
-    else:
-        form = RegisterForm(instance=user)
-        del form.fields['username']
-        img_form = ImgProfileForm(instance=profile)
+            else:
+                messages.error(request, 'Erro ao atualizar foto de perfil')
 
     context = {
         'form': form,

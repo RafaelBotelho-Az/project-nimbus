@@ -134,20 +134,35 @@ if (imgPerfil && dropdownPerfil) {
 
 // ocutar ou exibir form update user
 
-document.getElementById("edit-info-link").addEventListener("click", function() {
-    var form = document.getElementById("profile-form");
-    if (form.style.display === "none" || form.style.display === "") {
-        form.style.display = "block";  // Exibe o formulário
-    } else {
-        form.style.display = "none";   // Oculta o formulário se já estiver visível
-    }
-});
+var editInfoLink = document.getElementById("edit-info-link");
+var editImageLink = document.getElementById("edit-image-link");
 
-document.getElementById("edit-image-link").addEventListener("click", function() {
-    var form = document.getElementById("image-form");
-    if (form.style.display === "none" || form.style.display === "") {
-        form.style.display = "block";  // Exibe o formulário
-    } else {
-        form.style.display = "none";   // Oculta o formulário se já estiver visível
+var profileForm = document.getElementById("profile-form");
+var imageForm = document.getElementById("image-form");
+
+function hideForms() {
+    if (profileForm) {
+        profileForm.style.display = "none";
     }
-});
+    if (imageForm) {
+        imageForm.style.display = "none";
+    }
+}
+
+if (editInfoLink) {
+    editInfoLink.addEventListener("click", function() {
+        hideForms();
+        if (profileForm.style.display === "none" || profileForm.style.display === "") {
+            profileForm.style.display = "block";
+        }
+    });
+}
+
+if (editImageLink) {
+    editImageLink.addEventListener("click", function() {
+        hideForms();
+        if (imageForm.style.display === "none" || imageForm.style.display === "") {
+            imageForm.style.display = "block";
+        }
+    });
+}
