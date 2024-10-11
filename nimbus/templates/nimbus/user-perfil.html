@@ -68,7 +68,30 @@
             </div>
         </div>
         <div class="profile-content">
-            
+            <form method="POST" action="">
+                {% csrf_token %}
+                <button class="btn-del-post" name="delete-posts" type="submit" onclick="return confirmDelete()">Deletar Selecionados</button>
+                <table class="table-post">
+                    <thead>
+                        <tr>
+                            <th>Selecionar</th>
+                            <th>Título</th>
+                            <th>Imagem</th>
+                            <th>Data da Publicação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for post in posts %}
+                            <tr>
+                                <td><input type="checkbox" name="post_ids" value="{{ post.id }}"></td>
+                                <td>{{ post.title }}</td>
+                                <td><img src="{{ post.image.url }}" alt="{{ post.title }}"></td>
+                                <td>{{ post.created_date }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 {% endblock content %}

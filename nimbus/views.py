@@ -276,6 +276,14 @@ def perfil(request, username):
             else:
                 messages.error(request, 'Erro ao atualizar foto de perfil')
 
+        elif 'delete-posts' in request.POST:
+            post_ids = request.POST.getlist('post_ids')
+            if post_ids:
+                Art.objects.filter(id__in=post_ids, artist_id=user.id).delete()
+                messages.success(request, 'Posts deletados com sucesso!')
+            else:
+                messages.warning(request, 'Nenhum post foi selecionado.')
+
     context = {
         'form': form,
         'img_form': img_form,

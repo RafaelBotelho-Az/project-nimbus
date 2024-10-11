@@ -971,3 +971,58 @@ color: #888;
 .profile-form .form-content .form-group {
   padding-bottom: 5px;
 }
+
+
+
+
+/*---- PROFILE CONTENT-------------------------  */
+
+
+.profile-content form {
+  padding: 15px;
+  height: 772px;
+  overflow: auto;
+}
+
+.table-post {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-post th, .table-post td {
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 5px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table-post th {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.table-post tr {
+  height: 40px;
+}
+
+.table-post td img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto;
+}
+
+.btn-del-post {
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.btn-del-post:hover {
+  background-color: #d32f2f;
+}

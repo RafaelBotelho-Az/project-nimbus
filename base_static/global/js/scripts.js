@@ -166,3 +166,7 @@ if (editImageLink) {
         }
     });
 }
+
+function confirmDelete() {
+    return confirm('Você tem certeza que deseja deletar os posts selecionados?');
+}

@@ -18,7 +18,7 @@
             {% for post in page_obj %}
                 <div class="grid-item">
                     <a class="link-post" href="{% url "nimbus:post" post.id %}">
-                        <img class="testezin" src="{{ post.image.url }}" alt="imagem">
+                        <img class="tz" src="{{ post.image.url }}" alt="imagem">
                     </a>
                     <span class="c-date">{{ post.created_date|date:"d M Y H:i" }}</span>
                     <div class="interactions">
