@@ -6,7 +6,7 @@ from django.contrib import auth, messages
 from django.db.models import Q
 from django.db.models.functions import Lower
 from django import forms
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
 from nimbus.models import Art, Comment, Like, Tag, Profile
@@ -157,7 +157,7 @@ def createPost(request):
             post.artist = request.user
             post.save()
             form.save_m2m()
-            messages.success(request, 'Enviado com sucesso!')
+            messages.success(request, 'Publicado com sucesso!')
             return redirect('nimbus:create')
 
         return render(
@@ -243,7 +243,7 @@ def like_art(request, art_id):
 
     return JsonResponse({'total_likes': art.likes.count()})
 
-
+@login_required
 def perfil(request, username):
     user = get_object_or_404(User, username=username)
     posts = Art.objects.filter(artist_id=user.id).prefetch_related(
@@ -255,6 +255,11 @@ def perfil(request, username):
     form = RegisterForm(instance=user)
     del form.fields['username']
     img_form = ImgProfileForm(instance=profile)
+
+    if request.user.username != username:
+        return HttpResponseForbidden(
+            "Você não tem permissão para acessar este perfil."
+            )
 
     if request.method == 'POST':
         if 'edit-info' in request.POST:
@@ -296,5 +301,17 @@ def perfil(request, username):
     return render(
         request,
         'nimbus/user-perfil.html',
+        context
+    )
+
+def sobre(request):
+
+    context = {
+        'title': 'Sobre',
+    }
+
+    return render(
+        request,
+        'nimbus/sobre.html',
         context
     )

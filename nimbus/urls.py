@@ -5,6 +5,8 @@ app_name = 'nimbus'
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('sobre/', views.sobre, name='sobre'),
+
 
     # posts
     path('post/<int:post_id>/', views.post, name='post'),

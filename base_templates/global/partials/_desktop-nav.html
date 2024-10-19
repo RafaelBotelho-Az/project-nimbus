@@ -7,6 +7,7 @@
         <ul class="menu">
             <li><a href="{% url "nimbus:index" %}">Explorar</a></li>
             <li><a href="{% url "nimbus:create" %}">Criar</a></li>
+            <li><a href="{% url "nimbus:sobre" %}">Sobre</a></li>
             <li>
                 <a href="javascript:void(0)" class="no-hover">
                     {% if user.profile.profile_image %}
@@ -27,6 +28,7 @@
         <ul class="menu">
             <li><a href="{% url "nimbus:index" %}">Explorar</a></li>
             <li><a href="{% url "nimbus:login" %}">Criar</a></li>
+            <li><a href="{% url "nimbus:sobre" %}">Sobre</a></li>
             <li><a class="btn-entrar" href="{% url "nimbus:login" %}">Entrar</a></li>
             <li><a class="btn-cadastrar" href="{% url "nimbus:register" %}">Cadastrar</a></li>
         </ul>

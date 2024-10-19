@@ -612,7 +612,7 @@ body {
 }
 
 .post-about {
-  background-color: rgba(0, 0, 0, 0.40);
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 13px;
   max-height: 200px;
   overflow: auto;
@@ -648,7 +648,7 @@ body {
   max-height: 300px;
   overflow: auto;
   padding: 10px;
-  background-color: rgba(0, 0, 0, 0.40);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .post-comments p {
@@ -882,7 +882,7 @@ color: #888;
 
 .profile-info{
   display: block;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   padding: 10px;
   position: relative;
@@ -973,8 +973,6 @@ color: #888;
 }
 
 
-
-
 /*---- PROFILE CONTENT-------------------------  */
 
 
@@ -997,11 +995,17 @@ color: #888;
 }
 
 .table-post th {
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .table-post tr {
   height: 40px;
+  font-size: var(--smaller-font-size);
+}
+
+.table-post tr td a {
+  text-decoration: none;
+  color: var(--clr-turquoise);
 }
 
 .table-post td img {
@@ -1025,4 +1029,93 @@ color: #888;
 
 .btn-del-post:hover {
   background-color: #d32f2f;
+}
+
+
+/*---- PROFILE CONTENT-------------------------  */
+
+.sobre-container {
+  padding-top: 106px;
+  padding-bottom: 30px;
+}
+
+.sobre-header {
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 0 30px 0 30px;
+  display: block;
+  padding: 35px 15px 15px 15px;
+  border-radius: 10px 10px 0 0;
+}
+
+.sobre-header h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.sobre {
+  background-color: rgba(0, 0, 0, 0.5);
+  margin: 0 30px 0 30px;
+  padding: 0 15px 15px 15px;
+  border-radius: 0 0 10px 10px;
+}
+
+.sobre p {
+  margin-bottom: 20px;
+  font-size: var(--medium-font-size)
+}
+
+.sobre-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.sobre-links div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.sobre-links img {
+  width: 60px;
+}
+
+.sobre-links a {
+ text-decoration: none;
+ color: var(--clr-turquoise);
+}
+
+.sobre-links a:hover {
+  filter: brightness(170%);
+ }
+
+@media (max-width: 500px) {
+.sobre-links a {
+  font-size: var(--smallest-font-size);
+}
+.sobre-header h1 {
+  font-size: var(--medium-font-size)
+}
+.sobre p {
+  font-size: var(--small-font-size)
+}
+}
+
+@media (min-width: 1200px) {
+.sobre-header {
+  margin: 0 130px 0 130px;
+}
+.sobre{
+  margin: 0 130px 0 130px;
+}
+}
+
+@media (min-width: 1600px) {
+.sobre-header {
+  margin: 0 200px 0 200px;
+}
+.sobre{
+  margin: 0 200px 0 200px;
+}
 }

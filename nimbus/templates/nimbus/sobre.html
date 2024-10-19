@@ -1,0 +1,36 @@
+{% extends "global/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="sobre-container">
+        <div class="sobre-header">
+            <h1>Desenvolvido por: Rafael Botelho</h1>
+            <div class="sobre-links">
+                <div>
+                    <a href="https://github.com/RafaelBotelho-Az" target="_blank"><img src="{% static 'global/img/github-icon.svg' %}" alt="github-icon"></a>
+                    <p><a href="https://github.com/RafaelBotelho-Az" target="_blank">https://github.com/RafaelBotelho-Az</a></p>
+                </div>
+                <div>
+                    <a href="mailto:rafaelbotelho@live.com" target="_blank"><img src="{% static 'global/img/email-icon.svg' %}" alt="email-icon"></a>
+                    <p><a href="mailto:rafaelbotelho@live.com" target="_blank">rafaelbotelho@live.com</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="sobre">
+            <p>
+                Objetivo deste site foi me desafiar a utilizar o framework Django, 
+                aplicando e expandindo os conhecimentos que adquiri até o momento. 
+                Inspirado nas plataformas ArtStation e Pinterest, o site oferece 
+                aos usuários autenticados a possibilidade de fazer upload 
+                de fotos, gerenciar e editar seus perfis, além de interagir 
+                com outras publicações, deixando comentários e curtidas.
+            </p>
+            <p>
+                Os usuários podem explorar o conteúdo publicado, pesquisar 
+                por posts usando a barra de pesquisa ou filtrar publicações 
+                por meio de tags. O projeto combina aprendizado e criatividade, 
+                proporcionando uma experiência de usuário interativa.
+            </p>
+        </div>
+    </div>
+{% endblock content %}
