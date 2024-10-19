@@ -9,7 +9,10 @@ from django import forms
 from django.http import JsonResponse, HttpResponseForbidden
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
+from django.core.files.base import ContentFile
 from nimbus.models import Art, Comment, Like, Tag, Profile
+from PIL import Image
+import io
 
 class CustomClearableFileInput(forms.ClearableFileInput):
     template_name = 'nimbus/custom_clearable_file_input.html'
@@ -155,8 +158,21 @@ def createPost(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.artist = request.user
+
+            image_field = form.cleaned_data['image']
+            image = Image.open(image_field)
+            image_io = io.BytesIO()
+            image.save(image_io, format='WEBP')
+
+            webp_image = ContentFile(
+                image_io.getvalue(), 
+                name=f"{image_field.name.split('.')[0]}.webp"
+            )
+            
+            post.image.save(webp_image.name, webp_image, save=False)
             post.save()
             form.save_m2m()
+
             messages.success(request, 'Publicado com sucesso!')
             return redirect('nimbus:create')
 
